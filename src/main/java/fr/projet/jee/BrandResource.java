@@ -9,9 +9,11 @@ import java.util.logging.Level;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -82,6 +84,30 @@ public class BrandResource {
         for(int i = 0; i < _brands.length; i++)
             res = res && brandBean.add(_brands[i]);
         
+        return Response.ok(res).build();
+    }
+
+    
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/update/{id}")
+    public Response updateBrand(@PathParam("id") Long id, Brand _brand){
+        if (_brand.getName() == null || id == null || id <= 0) {
+            return Response.status(404).build();
+        }
+        var res = brandBean.update(id, _brand);
+        return Response.ok(res).build();
+    }
+	
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/delete/{id}")
+    public Response deleteBrand(@PathParam("id") Long id){
+        if (id == null || id < 0)
+            return Response.status(404).build();
+
+        var res = brandBean.delete(id);
         return Response.ok(res).build();
     }
 }

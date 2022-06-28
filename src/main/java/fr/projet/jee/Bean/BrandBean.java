@@ -24,4 +24,12 @@ public class BrandBean {
     public boolean add(Brand _brand) {
         return _brandDao.create(_brand);
     }
+
+    public boolean update(Long id, Brand _brand) {
+        return _brandDao.update(_brand);
+    }
+
+    public boolean delete(Long id){
+        return _brandDao.delete(id);
+    }
 }

@@ -79,33 +79,27 @@ public class AuthBean {
         }
     }
 
-    public boolean addToken(User u) {
+    public String addToken(User u) {
         var _token = new Token();
         _token.setUser(u);
-        return _tokenDao.create(_token);
+        if(_tokenDao.create(_token))
+            return _token.getValue();
+        else return "Echec";
     } 
 
 
-    public CustomLoginPair login(User user, String tokenVal) {
+    public String login(User user, String tokenVal) {
         var dbo_user = _userDao.getUserByUName(user.getUsername());
-        var isExist = false;
-        var errPos = -1;
-        if(dbo_user == null) {
-            errPos = 0;
+        var token = "";
+        
+        try {
+            if(this.HashPwd(user.getPassword()).equals(dbo_user.getPassword()))
+                token = this.addToken(dbo_user);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else {
-            try {
-                if(this.HashPwd(user.getPassword()).equals(dbo_user.getPassword())) {
-                    isExist = true;
-                    var token =  this.addToken(dbo_user);
-                }       
-            } catch (Exception e) {
-                e.printStackTrace();
-                errPos = 1;
-            }
-        }
-
-        return new CustomLoginPair(isExist, errPos);
+        
+        return token;
     }
 
     public boolean logout(String token_val) {

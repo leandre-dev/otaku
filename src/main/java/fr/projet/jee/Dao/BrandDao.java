@@ -41,4 +41,39 @@ public class BrandDao {
             return false;
         }
     }
+
+    
+
+    public boolean update(Brand _brand) {
+        try{
+            userTransaction.begin();
+            em.merge(_brand);
+            userTransaction.commit();
+
+            Logger.getGlobal().log(Level.SEVERE, "JPA Updated " + _brand.getName());
+            return true;
+        }catch (Exception e){
+            Logger.getGlobal().log(Level.SEVERE, "JPA U error " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean delete(Long id) {
+        try{
+            userTransaction.begin();
+            var _brand = em.find(Brand.class, id);
+            if(_brand == null) {
+                Logger.getGlobal().log(Level.SEVERE, "JPA NOOOT Deleted " + id);
+                return false;
+            }
+
+            em.remove(_brand);
+            userTransaction.commit();
+            Logger.getGlobal().log(Level.SEVERE, "JPA Deleted " + _brand.getName());
+            return true;
+        }catch (Exception e){
+            Logger.getGlobal().log(Level.SEVERE, "JPA D error " + e.getMessage());
+            return false;
+        }
+    }
 }
