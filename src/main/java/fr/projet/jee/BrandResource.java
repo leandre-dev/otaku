@@ -38,6 +38,9 @@ public class BrandResource {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getBrands(@Context HttpServletRequest req, @PathParam("id") Long id){
         var token_val = req.getHeader(AUTHORIZATION).substring("Bearer".length()).trim();
+        if(token_val == null)
+            return Response.status(401).build();
+
         var token = authBean.getToken(token_val);
         if(token == null)
             return Response.status(402).build();
