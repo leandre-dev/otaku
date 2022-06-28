@@ -94,10 +94,17 @@ public class WhiskeyResource {
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/delete/{id}")
-    public Response deleteWhiskey(@PathParam("id") Long id){
-        if (id == null || id < 0) {
-            return Response.status(403).build();
-        }
+    public Response deleteWhiskey(@HeaderParam("Authorizations") String bearerAuth, @PathParam("id") Long id){
+        if(bearerAuth == null)
+            return Response.status(401).build();
+
+        var token_val = bearerAuth.split(" ")[1];
+        var token = authBean.getToken(token_val);
+        if(token == null)
+            return Response.status(402).build();
+
+        if (id == null || id < 0)
+            return Response.status(404).build();
 
         var res = whiskeyBean.delete(id);
         return Response.ok(res).build();
