@@ -77,7 +77,9 @@ public class AuthResource {
         if(bearerAuth != null && bearerAuth.contains(" "))
             _token = bearerAuth.split(" ")[1];
 
-        return Response.ok(authBean.login(_user, _token)).build();
+        var res = authBean.login(_user, _token);
+
+        return Response.ok(res.isValue1() + " -* " + res.isValue2()).build();
     }
 
     @POST
