@@ -53,6 +53,13 @@ public class BrandResource {
 	}
 
     @GET
+	@Path("/token/{val}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getTokenByName(@PathParam("val") String val){
+        return Response.ok(authBean.getToken(val)).build();
+	}
+
+    @GET
 	@Path("/search/{id}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getBrand(@PathParam("id") Long id) {
