@@ -56,6 +56,22 @@
     <build>
         <finalName>otaku</finalName>
         <plugins>
+            <!--plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>3.0.0.Final</version>
+                <configuration>
+                    <add-user>
+                        <users>
+                            <user>
+                                <username>admin</username>
+                                <password>admin.1234</password>
+                            </user>
+                        </users>
+                    </add-user>
+                </configuration>
+            </plugin-->
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
