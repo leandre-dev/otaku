@@ -7,6 +7,7 @@ import fr.projet.jee.Objets.Brand;
 import java.util.logging.Level;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -14,8 +15,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 //import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -33,11 +36,8 @@ public class BrandResource {
     @GET
 	@Path("/")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getBrands(@HeaderParam("Authorizations") String bearerAuth, @PathParam("id") Long id){
-        if(bearerAuth == null)
-            return Response.status(401).build();
-
-        var token_val = bearerAuth.split(" ")[1];
+	public Response getBrands(@Context HttpServletRequest req, @PathParam("id") Long id){
+        var token_val = req.getHeader(AUTHORIZATION).substring("Bearer".length()).trim();
         var token = authBean.getToken(token_val);
         if(token == null)
             return Response.status(402).build();
