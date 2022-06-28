@@ -1,5 +1,6 @@
 package fr.projet.jee;
 
+import fr.projet.jee.Bean.AuthBean;
 import fr.projet.jee.Bean.BrandBean;
 import fr.projet.jee.Objets.Brand;
 
@@ -8,6 +9,7 @@ import java.util.logging.Level;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,13 +25,23 @@ public class BrandResource {
     
 	@Inject
     private BrandBean brandBean;
+	@Inject
+    private AuthBean authBean;
 
     private static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SampleResource.class.getName());
 
     @GET
 	@Path("/")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getBrands() {
+	public Response getBrands(@HeaderParam("Authorizations") String bearerAuth, @PathParam("id") Long id){
+        if(bearerAuth == null)
+            return Response.status(401).build();
+
+        var token_val = bearerAuth.split(" ")[1];
+        var token = authBean.getToken(token_val);
+        if(token == null)
+            return Response.status(402).build();
+
         return Response.ok(brandBean.getBrands()).build();
 	}
 
