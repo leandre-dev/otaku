@@ -1,0 +1,10 @@
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource jndi-name="java:jboss/datasources/apidb" pool-name="apidb">
+        <driver>otaku.war_com.mysql.cj.jdbc.Driver_8_0</driver>
+        <connection-url>jdbc:mysql://us-cdbr-east-05.cleardb.net:3306/heroku_033d76f2efdcb02</connection-url>
+        <security>
+            <user-name>be770b186ae027</user-name>
+            <password>436aeaa0</password>
+        </security>
+    </datasource>
+</datasources>

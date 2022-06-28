@@ -44,12 +44,12 @@ public class WhiskeyResource {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getWhiskeys(@HeaderParam("Authorizations") String bearerAuth, @PathParam("id") Long id) {
         if(bearerAuth == null)
-            return Response.status(404).build();
+            return Response.status(401).build();
 
         var token_val = bearerAuth.split(" ")[1];
         var token = authBean.getToken(token_val);
         if(token == null)
-            return Response.status(414).build();
+            return Response.status(404).build();
 
         var res = whiskeyBean.getWhiskey(id);
         return Response.ok(res).build();
@@ -73,7 +73,7 @@ public class WhiskeyResource {
     public Response addWhiskey(Whiskey _whiskey) {
         logger.log(Level.INFO, _whiskey.toString());
         if (_whiskey.getName() == null) {
-            return Response.status(403, "Whiskey").build();
+            return Response.status(404, "Whiskey").build();
         }
         
         return Response.ok(whiskeyBean.add(_whiskey)).build();
@@ -85,7 +85,7 @@ public class WhiskeyResource {
     @Path("/update/{id}")
     public Response updateWhiskey(@PathParam("id") Long id, Whiskey _whiskey){
         if (_whiskey.getName() == null || id == null || id <= 0) {
-            return Response.status(403).build();
+            return Response.status(404).build();
         }
         var res = whiskeyBean.update(id, _whiskey);
         return Response.ok(res).build();
