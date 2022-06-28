@@ -65,9 +65,8 @@ public class AuthBean {
         try {
             var pwd = this.HashPwd(_user.getPassword());
             _user.setPassword(pwd);
-            var isUserCreated = false;
+            var isUserCreated = _userDao.create(_user);
             var isTokenAssigned = false;
-
             if(isUserCreated) {
                 var dbo_user = _userDao.getUserByUName(_user.getUsername());
                 if(dbo_user != null && dbo_user.getId() != null) {
