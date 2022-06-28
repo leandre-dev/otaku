@@ -8,4 +8,4 @@ Steps to run this project:
 4. Visit http://localhost:9080/resources/sample
 
 ## Documentation API
-[Postman Documentation](https://documenter.getpostman.com/view/21682662/UzBtmPPE)
+	+ [Postman Doc](https://documenter.getpostman.com/view/21682662/UzBtmPPE)
