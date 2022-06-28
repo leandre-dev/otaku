@@ -84,15 +84,15 @@ public class AuthResource {
     @Path("/user/logout")
     public Response logout(@Context HttpServletRequest req) {
         if(req.getHeader(AUTHORIZATION) == null)
-            return Response.status(401).build();
+            return Response.status(405).build();
 
         var token_val = req.getHeader(AUTHORIZATION).substring("Bearer".length()).trim();
         if(token_val == null)
-            return Response.status(402).build();
+            return Response.status(403).build();
 
         var token = authBean.getToken(token_val);
         if(token == null)
-            return Response.status(404).build();
+            return Response.status(401).build();
             
         return Response.ok(authBean.logout(token_val)).build();
     }
