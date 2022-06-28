@@ -62,11 +62,15 @@ public class AuthBean {
     }
 
     public CustomPair addUser(User _user) {
+        if(this.getUser(_user.getUsername()) != null)
+            return null;
+
         try {
             var pwd = this.HashPwd(_user.getPassword());
             _user.setPassword(pwd);
-            var isUserCreated = _userDao.create(_user);
+            var isUserCreated = false;
             var isTokenAssigned = false;
+
             if(isUserCreated) {
                 var dbo_user = _userDao.getUserByUName(_user.getUsername());
                 if(dbo_user != null && dbo_user.getId() != null) {
@@ -96,7 +100,7 @@ public class AuthBean {
         }
         else {
             try {
-                if(user.getPassword().equals(dbo_user.getPassword())) {
+                if(this.HashPwd(user.getPassword()).equals(dbo_user.getPassword())) {
                     if(tokenVal == null)  {
                         if(this.addToken(dbo_user))
                             isExist = true;

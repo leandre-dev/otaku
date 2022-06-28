@@ -64,8 +64,8 @@ public class AuthResource {
         }
         
         var res = authBean.addUser(_user);
-        logger.log(Level.SEVERE, res.isValue1() + " -* " + res.isValue2());
-        return Response.ok(res).build();
+        //logger.log(Level.SEVERE, res.isValue1() + " -* " + res.isValue2());
+        return Response.ok(res == null ? "Username existe deja" : res).build();
     }
 
     @POST
@@ -86,12 +86,12 @@ public class AuthResource {
     @Path("/user/logout")
     public Response logout(@HeaderParam("Authorizations") String bearerAuth) {
         if(bearerAuth == null)
-            return Response.status(404).build();
+            return Response.status(401).build();
 
         var token_val = bearerAuth.split(" ")[1];
         var token = authBean.getToken(token_val);
         if(token == null)
-            return Response.status(414).build();
+            return Response.status(404).build();
             
         return Response.ok(authBean.logout(token_val)).build();
     }
