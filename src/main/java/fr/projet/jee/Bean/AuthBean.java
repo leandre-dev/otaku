@@ -62,9 +62,6 @@ public class AuthBean {
     }
 
     public CustomPair addUser(User _user) {
-        if(this.getUser(_user.getUsername()) != null)
-            return null;
-
         try {
             var pwd = this.HashPwd(_user.getPassword());
             _user.setPassword(pwd);
