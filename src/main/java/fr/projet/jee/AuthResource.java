@@ -65,7 +65,7 @@ public class AuthResource {
         
         var res = authBean.addUser(_user);
         //logger.log(Level.SEVERE, res.isValue1() + " -* " + res.isValue2());
-        return Response.ok(res == null ? "Username existe deja" : res).build();
+        return Response.ok(res == null ? "Username existe deja" : res.isValue1() + " -* " + res.isValue2()).build();
     }
 
     @POST
