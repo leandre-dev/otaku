@@ -2,7 +2,6 @@ package fr.projet.jee.Bean;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,6 @@ import fr.projet.jee.Objets.User;
 
 
 import fr.projet.jee.Dao.TokenDao;
-import fr.projet.jee.Objets.CustomLoginPair;
 import fr.projet.jee.Objets.CustomPair;
 import fr.projet.jee.Objets.Token;
 
@@ -96,6 +94,7 @@ public class AuthBean {
             if(this.HashPwd(user.getPassword()).equals(dbo_user.getPassword()))
                 token = this.addToken(dbo_user);
         } catch (Exception e) {
+            token = "Echec";
             e.printStackTrace();
         }
         

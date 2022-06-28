@@ -26,7 +26,7 @@ public class BrandBean {
     }
 
     public boolean update(Long id, Brand _brand) {
-        return _brandDao.update(_brand);
+        return _brandDao.update(id, _brand);
     }
 
     public boolean delete(Long id){

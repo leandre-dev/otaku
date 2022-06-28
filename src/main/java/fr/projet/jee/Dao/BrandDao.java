@@ -44,10 +44,12 @@ public class BrandDao {
 
     
 
-    public boolean update(Brand _brand) {
+    public boolean update(Long id, Brand _brand) {
         try{
             userTransaction.begin();
-            em.merge(_brand);
+            var dbo_brand = findById(id);
+            dbo_brand.setName(_brand.getName());
+            em.merge(dbo_brand);
             userTransaction.commit();
 
             Logger.getGlobal().log(Level.SEVERE, "JPA Updated " + _brand.getName());
