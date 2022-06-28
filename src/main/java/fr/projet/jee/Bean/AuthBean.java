@@ -70,7 +70,6 @@ public class AuthBean {
             if(isUserCreated) {
                 var dbo_user = _userDao.getUserByUName(_user.getUsername());
                 if(dbo_user != null && dbo_user.getId() != null) {
-                    isTokenAssigned = this.addToken(dbo_user);
                 }
             }
             return new CustomPair(isUserCreated, isTokenAssigned);
@@ -97,25 +96,8 @@ public class AuthBean {
         else {
             try {
                 if(this.HashPwd(user.getPassword()).equals(dbo_user.getPassword())) {
-                    if(tokenVal == null)  {
-                        if(this.addToken(dbo_user))
-                            isExist = true;
-                        else
-                            errPos = 2;
-                    }
-                    else {
-                        var _token = this.getToken(tokenVal);
-                        if(_token == null)
-                            errPos = 3;
-                        else {
-                            isExist = true;
-                            if(_token.getEndValidity().compareTo(LocalDateTime.now()) < 0) {
-                                errPos = 4;
-                                _tokenDao.terminate(_token);
-                                errPos = -1;
-                            }
-                        }
-                    }
+                    isExist = true;
+                    var token =  this.addToken(dbo_user);
                 }       
             } catch (Exception e) {
                 e.printStackTrace();

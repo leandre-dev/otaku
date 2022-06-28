@@ -38,8 +38,8 @@ public class TokenDao {
     }
     
     public Token getTokenByValue(String value){
-        var res = em.createQuery("SELECT t FROM Token t WHERE t.value LIKE :val", Token.class).setParameter("val", value).getResultList();
-        return res.size() > 0 ? res.get(0) : null;
+        var res = em.createQuery("SELECT Distinct t FROM Token t WHERE t.value LIKE :val", Token.class).setParameter("val", value).getSingleResult();
+        return res;
     }
     
     public boolean create(Token _token){
