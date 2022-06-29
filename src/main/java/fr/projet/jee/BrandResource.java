@@ -43,11 +43,11 @@ public class BrandResource {
 
         var token_val = req.getHeader(AUTHORIZATION).substring("Bearer".length()).trim();
         if(token_val == null)
-            return Response.status(402).build();
+            return Response.status(403).build();
 
         var token = authBean.getToken(token_val);
         if(token == null)
-            return Response.status(404).build();
+            return Response.status(405).build();
 
         return Response.ok(brandBean.getBrands()).build();
 	}
